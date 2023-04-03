@@ -11,6 +11,13 @@
 		DADC11FA29DB581D004A25FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC11F929DB581D004A25FD /* ContentView.swift */; };
 		DADC11FC29DB581E004A25FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FB29DB581E004A25FD /* Assets.xcassets */; };
 		DADC11FF29DB581E004A25FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */; };
+		DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DADC120529DB61C3004A25FD /* CoreDataModel.xcdatamodeld */; };
+		DADC121129DB662E004A25FD /* ListName+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120B29DB662E004A25FD /* ListName+CoreDataClass.swift */; };
+		DADC121229DB662E004A25FD /* ListName+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120C29DB662E004A25FD /* ListName+CoreDataProperties.swift */; };
+		DADC121329DB662E004A25FD /* ListItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120D29DB662E004A25FD /* ListItem+CoreDataClass.swift */; };
+		DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120E29DB662E004A25FD /* ListItem+CoreDataProperties.swift */; };
+		DADC121529DB662E004A25FD /* Pantry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120F29DB662E004A25FD /* Pantry+CoreDataClass.swift */; };
+		DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +26,13 @@
 		DADC11F929DB581D004A25FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DADC11FB29DB581E004A25FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DADC120629DB61C3004A25FD /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		DADC120B29DB662E004A25FD /* ListName+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListName+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DADC120C29DB662E004A25FD /* ListName+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListName+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DADC120D29DB662E004A25FD /* ListItem+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListItem+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DADC120E29DB662E004A25FD /* ListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DADC120F29DB662E004A25FD /* Pantry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pantry+CoreDataClass.swift"; sourceTree = "<group>"; };
+		DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pantry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +65,7 @@
 		DADC11F629DB581D004A25FD /* groceryCalculator */ = {
 			isa = PBXGroup;
 			children = (
+				DADC120829DB63B5004A25FD /* Core_Data */,
 				DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */,
 				DADC11F929DB581D004A25FD /* ContentView.swift */,
 				DADC11FB29DB581E004A25FD /* Assets.xcassets */,
@@ -65,6 +80,52 @@
 				DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		DADC120829DB63B5004A25FD /* Core_Data */ = {
+			isa = PBXGroup;
+			children = (
+				DADC120929DB63C9004A25FD /* CoreDataProperties */,
+				DADC120529DB61C3004A25FD /* CoreDataModel.xcdatamodeld */,
+			);
+			path = Core_Data;
+			sourceTree = "<group>";
+		};
+		DADC120929DB63C9004A25FD /* CoreDataProperties */ = {
+			isa = PBXGroup;
+			children = (
+				DADC121729DB6682004A25FD /* ListName */,
+				DADC121829DB6690004A25FD /* ListItem */,
+				DADC121929DB66A3004A25FD /* Pantry */,
+			);
+			path = CoreDataProperties;
+			sourceTree = "<group>";
+		};
+		DADC121729DB6682004A25FD /* ListName */ = {
+			isa = PBXGroup;
+			children = (
+				DADC120B29DB662E004A25FD /* ListName+CoreDataClass.swift */,
+				DADC120C29DB662E004A25FD /* ListName+CoreDataProperties.swift */,
+			);
+			path = ListName;
+			sourceTree = "<group>";
+		};
+		DADC121829DB6690004A25FD /* ListItem */ = {
+			isa = PBXGroup;
+			children = (
+				DADC120D29DB662E004A25FD /* ListItem+CoreDataClass.swift */,
+				DADC120E29DB662E004A25FD /* ListItem+CoreDataProperties.swift */,
+			);
+			path = ListItem;
+			sourceTree = "<group>";
+		};
+		DADC121929DB66A3004A25FD /* Pantry */ = {
+			isa = PBXGroup;
+			children = (
+				DADC120F29DB662E004A25FD /* Pantry+CoreDataClass.swift */,
+				DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */,
+			);
+			path = Pantry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +198,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DADC121129DB662E004A25FD /* ListName+CoreDataClass.swift in Sources */,
+				DADC121229DB662E004A25FD /* ListName+CoreDataProperties.swift in Sources */,
+				DADC121329DB662E004A25FD /* ListItem+CoreDataClass.swift in Sources */,
+				DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */,
 				DADC11FA29DB581D004A25FD /* ContentView.swift in Sources */,
+				DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */,
 				DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */,
+				DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */,
+				DADC121529DB662E004A25FD /* Pantry+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -339,6 +407,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		DADC120529DB61C3004A25FD /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				DADC120629DB61C3004A25FD /* CoreDataModel.xcdatamodel */,
+			);
+			currentVersion = DADC120629DB61C3004A25FD /* CoreDataModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = DADC11EC29DB581D004A25FD /* Project object */;
 }
