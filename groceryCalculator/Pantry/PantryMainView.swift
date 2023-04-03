@@ -126,7 +126,7 @@ struct pantryItemDetailView: View {
             pantryItemDetailIntro(pantry: pantry)
             Divider()
                 .padding(.horizontal, 20)
-            pantryItemDetailCondition(pantry: pantry)
+            pantryItemDetailCondition(pantry: pantry, expiryDayReminder: 7)
             Divider()
                 .padding(.horizontal, 20)
             pantryItemDetailExpStock(pantry: pantry)
@@ -216,14 +216,21 @@ struct pantryItemDetailIntro: View {
 //MARK: - Pantry Item Detail View - Condition
 struct pantryItemDetailCondition: View {
     @StateObject var pantry: Pantry
+    var expiryDayReminder: Int
+    
     var body: some View{
+        let dates = ExpiryDateCheck().expiryDateCheck(expiryDate: pantry.unwrappedExpiryDate)
+        let totalDays = dates[0]
+        
         HStack(spacing: 5){
             VStack(spacing:0){
-                Text("Good")
+                Text(totalDays > expiryDayReminder ? "Good" :
+                        totalDays > 2 ? "Bad" : "Very Bad" )
                     .font(.headline)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 2.5)
-                    .background(Color.gray.opacity(0.2))
+                    .background(totalDays > 8 ? Color.green.opacity(0.2) :
+                                    totalDays > 2 ? Color.yellow.opacity(0.2) : Color.red.opacity(0.2))
                     .cornerRadius(10)
                 Text("Status")
                     .font(.caption)
