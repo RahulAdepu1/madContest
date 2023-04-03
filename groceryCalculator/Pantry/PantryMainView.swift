@@ -41,13 +41,22 @@ struct PantryMainView: View {
 
 
 //MARK: - Pantry Row View
+enum editFinishedSheet:Identifiable {
+    case edit
+    case complete
+    
+    var id: String { UUID().uuidString }
+}
+
 struct pantryRowView: View {
     
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @StateObject var pantry: Pantry
-    @State var detailSheet: Bool = false
+    
+    @State private var activeSheet: editFinishedSheet?
     
     var body: some View{
+        
         HStack(alignment: .top){
             Image(systemName: "person")
                 .resizable()
@@ -86,18 +95,27 @@ struct pantryRowView: View {
             }
             .frame(width: 100)
         }
-        .onTapGesture {
-            detailSheet.toggle()
-        }
         .foregroundColor(.white.opacity(0.5))
         .padding(10)
         .frame(maxWidth: .infinity)
         .background(Color.black.opacity(0.5))
         .cornerRadius(10)
         .padding(.horizontal, 20)
-        .sheet(isPresented: $detailSheet) {
-            pantryItemDetailView(pantry: pantry)
-                .presentationDetents([.medium])
+        .onTapGesture(count: 2, perform: {
+            activeSheet = .complete
+        })
+        .onTapGesture(count: 1, perform: {
+            activeSheet = .edit
+        })
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .edit:
+                pantryItemDetailView(pantry: pantry)
+                    .presentationDetents([.medium])
+            case .complete:
+                pantryItemFinishedView()
+                    .presentationDetents([.height(100)])
+            }
         }
     }
 }
@@ -140,6 +158,28 @@ struct pantryItemDetailView: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color.white)
+    }
+}
+
+//MARK: - Pantry Item Finished or Delete Sheet
+struct pantryItemFinishedView:View {
+    @Environment(\.dismiss) var dismiss
+    var body: some View{
+        HStack{
+            Button {
+                dismiss()
+            } label: {
+                Text("Spoiled")
+                    .modifier(CustomButtonDesign())
+            }
+            
+            Button {
+                dismiss()
+            } label: {
+                Text("Finished")
+                    .modifier(CustomButtonDesign())
+            }
+        }
     }
 }
 
