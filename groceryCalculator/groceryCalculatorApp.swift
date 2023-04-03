@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct groceryCalculatorApp: App {
+    @StateObject var listNameCoreDataVM: ListNameCoreDataVM = ListNameCoreDataVM()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationStack {
+                ShoppingListMainView()
+            }
+            .environmentObject(listNameCoreDataVM)
         }
     }
 }
