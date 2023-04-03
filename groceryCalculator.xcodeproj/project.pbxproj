@@ -18,6 +18,7 @@
 		DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120E29DB662E004A25FD /* ListItem+CoreDataProperties.swift */; };
 		DADC121529DB662E004A25FD /* Pantry+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC120F29DB662E004A25FD /* Pantry+CoreDataClass.swift */; };
 		DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */; };
+		DADC121B29DB676B004A25FD /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121A29DB676B004A25FD /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		DADC120E29DB662E004A25FD /* ListItem+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ListItem+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DADC120F29DB662E004A25FD /* Pantry+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pantry+CoreDataClass.swift"; sourceTree = "<group>"; };
 		DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pantry+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		DADC121A29DB676B004A25FD /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				DADC121729DB6682004A25FD /* ListName */,
 				DADC121829DB6690004A25FD /* ListItem */,
 				DADC121929DB66A3004A25FD /* Pantry */,
+				DADC121A29DB676B004A25FD /* CoreDataManager.swift */,
 			);
 			path = CoreDataProperties;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 				DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */,
 				DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */,
 				DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */,
+				DADC121B29DB676B004A25FD /* CoreDataManager.swift in Sources */,
 				DADC121529DB662E004A25FD /* Pantry+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -23,7 +23,7 @@ extension Pantry {
     @NSManaged public var location: String?
     @NSManaged public var storeName: String?
     @NSManaged public var purchaseType: String?
-    @NSManaged public var count: Int64
+    @NSManaged public var count: Double
     @NSManaged public var cost: Double
     @NSManaged public var stockedDate: Date?
     @NSManaged public var expiryDate: Date?

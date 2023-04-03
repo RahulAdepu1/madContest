@@ -18,7 +18,7 @@ extension ListItem {
 
     @NSManaged public var id: String?
     @NSManaged public var itemName: String?
-    @NSManaged public var itemCount: Int64
+    @NSManaged public var itemCount: Double
     @NSManaged public var isLooking: Bool
     @NSManaged public var isFound: Bool
     @NSManaged public var listName: ListName?
