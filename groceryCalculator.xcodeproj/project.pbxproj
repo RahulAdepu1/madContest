@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */; };
-		DADC11FA29DB581D004A25FD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC11F929DB581D004A25FD /* ContentView.swift */; };
 		DADC11FC29DB581E004A25FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FB29DB581E004A25FD /* Assets.xcassets */; };
 		DADC11FF29DB581E004A25FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */; };
 		DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DADC120529DB61C3004A25FD /* CoreDataModel.xcdatamodeld */; };
@@ -24,7 +23,6 @@
 /* Begin PBXFileReference section */
 		DADC11F429DB581D004A25FD /* groceryCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groceryCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groceryCalculatorApp.swift; sourceTree = "<group>"; };
-		DADC11F929DB581D004A25FD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		DADC11FB29DB581E004A25FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DADC120629DB61C3004A25FD /* CoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreDataModel.xcdatamodel; sourceTree = "<group>"; };
@@ -69,7 +67,6 @@
 			children = (
 				DADC120829DB63B5004A25FD /* Core_Data */,
 				DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */,
-				DADC11F929DB581D004A25FD /* ContentView.swift */,
 				DADC11FB29DB581E004A25FD /* Assets.xcassets */,
 				DADC11FD29DB581E004A25FD /* Preview Content */,
 			);
@@ -89,6 +86,7 @@
 			children = (
 				DADC120929DB63C9004A25FD /* CoreDataProperties */,
 				DADC120529DB61C3004A25FD /* CoreDataModel.xcdatamodeld */,
+				DADC121A29DB676B004A25FD /* CoreDataManager.swift */,
 			);
 			path = Core_Data;
 			sourceTree = "<group>";
@@ -99,7 +97,6 @@
 				DADC121729DB6682004A25FD /* ListName */,
 				DADC121829DB6690004A25FD /* ListItem */,
 				DADC121929DB66A3004A25FD /* Pantry */,
-				DADC121A29DB676B004A25FD /* CoreDataManager.swift */,
 			);
 			path = CoreDataProperties;
 			sourceTree = "<group>";
@@ -205,7 +202,6 @@
 				DADC121229DB662E004A25FD /* ListName+CoreDataProperties.swift in Sources */,
 				DADC121329DB662E004A25FD /* ListItem+CoreDataClass.swift in Sources */,
 				DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */,
-				DADC11FA29DB581D004A25FD /* ContentView.swift in Sources */,
 				DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */,
 				DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */,
 				DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */,
