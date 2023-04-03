@@ -30,7 +30,19 @@ extension Pantry {
     @NSManaged public var consumedDate: Date?
     @NSManaged public var consumedAmount: Double
     @NSManaged public var remainingAmount: Double
-
+    
+    public var unwrappedConsumedDate: Date {
+        let date = consumedDate ?? Date()
+        return date
+    }
+    public var unwrappedExpiryDate: Date {
+        let date = expiryDate ?? Date()
+        return date
+    }
+    public var unwrappedStockedDate: Date {
+        let date = stockedDate ?? Date()
+        return date
+    }
 }
 
 extension Pantry : Identifiable {

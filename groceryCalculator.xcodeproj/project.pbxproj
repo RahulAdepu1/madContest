@@ -19,6 +19,7 @@
 		DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */; };
 		DADC121B29DB676B004A25FD /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121A29DB676B004A25FD /* CoreDataManager.swift */; };
 		DADC121E29DB69B6004A25FD /* ShoppingListMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC121D29DB69B6004A25FD /* ShoppingListMainView.swift */; };
+		DADC122229DB6DE7004A25FD /* PantryMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC122129DB6DE7004A25FD /* PantryMainView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		DADC121029DB662E004A25FD /* Pantry+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pantry+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		DADC121A29DB676B004A25FD /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		DADC121D29DB69B6004A25FD /* ShoppingListMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingListMainView.swift; sourceTree = "<group>"; };
+		DADC122129DB6DE7004A25FD /* PantryMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PantryMainView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,8 +69,9 @@
 		DADC11F629DB581D004A25FD /* groceryCalculator */ = {
 			isa = PBXGroup;
 			children = (
-				DADC121C29DB6996004A25FD /* ShoppingList */,
 				DADC120829DB63B5004A25FD /* Core_Data */,
+				DADC122029DB6DD7004A25FD /* Pantry */,
+				DADC121C29DB6996004A25FD /* ShoppingList */,
 				DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */,
 				DADC11FB29DB581E004A25FD /* Assets.xcassets */,
 				DADC11FD29DB581E004A25FD /* Preview Content */,
@@ -137,6 +140,14 @@
 				DADC121D29DB69B6004A25FD /* ShoppingListMainView.swift */,
 			);
 			path = ShoppingList;
+			sourceTree = "<group>";
+		};
+		DADC122029DB6DD7004A25FD /* Pantry */ = {
+			isa = PBXGroup;
+			children = (
+				DADC122129DB6DE7004A25FD /* PantryMainView.swift */,
+			);
+			path = Pantry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DADC121129DB662E004A25FD /* ListName+CoreDataClass.swift in Sources */,
+				DADC122229DB6DE7004A25FD /* PantryMainView.swift in Sources */,
 				DADC121229DB662E004A25FD /* ListName+CoreDataProperties.swift in Sources */,
 				DADC121329DB662E004A25FD /* ListItem+CoreDataClass.swift in Sources */,
 				DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */,
