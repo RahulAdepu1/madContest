@@ -10,6 +10,7 @@ import SwiftUI
 struct PantryMainView: View {
     
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
+    
     var body: some View {
         ZStack {
             Color.clear
@@ -34,26 +35,17 @@ struct PantryMainView: View {
         .navigationTitle("Pantry")
         .navigationBarTitleDisplayMode(.inline)
     }
-    
-    
-    
 }
 
 
 //MARK: - Pantry Row View
-enum editFinishedSheet:Identifiable {
-    case edit
-    case complete
-    
-    var id: String { UUID().uuidString }
-}
-
 struct pantryRowView: View {
     
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @StateObject var pantry: Pantry
+    @State var detailSheet: Bool = false
+    @State var finishedSheet: Bool = false
     
-    @State private var activeSheet: editFinishedSheet?
     
     var body: some View{
         
@@ -68,7 +60,7 @@ struct pantryRowView: View {
                     Color.black.opacity(0.5)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 )
-//                .padding(.leading, 10)
+            //                .padding(.leading, 10)
                 .overlay(alignment: .bottomTrailing) {
                     Circle().fill(Color.white)
                         .frame(width: 30, height: 30)
@@ -101,29 +93,32 @@ struct pantryRowView: View {
         .background(Color.black.opacity(0.5))
         .cornerRadius(10)
         .padding(.horizontal, 20)
-        .onTapGesture(count: 2, perform: {
-            activeSheet = .complete
-        })
+        
         .onTapGesture(count: 1, perform: {
-            activeSheet = .edit
+            detailSheet = true
         })
-        .sheet(item: $activeSheet) { sheet in
-            switch sheet {
-            case .edit:
-                pantryItemDetailView(pantry: pantry)
-                    .presentationDetents([.medium])
-            case .complete:
-                pantryItemFinishedView()
-                    .presentationDetents([.height(100)])
-            }
+        .onLongPressGesture(minimumDuration: 0.1) {
+            finishedSheet.toggle()
         }
+        
+        .sheet(isPresented: $detailSheet, content: {
+            pantryItemDetailView(pantry: pantry)
+                .presentationDetents([.medium])
+        })
+        .sheet(isPresented: $finishedSheet, content: {
+            pantryItemFinishedView()
+                .presentationDetents([.height(100)])
+        })
+        
     }
 }
 
 //MARK: - Pantry Item Detail View
 struct pantryItemDetailView: View {
     
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @StateObject var pantry: Pantry
+    @State var pantryItemEditSheet:Bool = false
     @Environment(\.dismiss) var dismiss
     
     var body: some View{
@@ -139,15 +134,16 @@ struct pantryItemDetailView: View {
                 .padding(.horizontal, 20)
             pantryItemDetailLocCat(pantry: pantry)
             Divider()
-            .padding(.horizontal, 20)
+                .padding(.horizontal, 20)
             HStack {
                 Button {
-                    dismiss()
+                    pantryItemEditSheet = true
                 } label: {
                     Text("Edit")
                         .modifier(CustomButtonDesign())
                 }
                 Button {
+                    listNameCoreDataVM.deletePantryItem(pantry: pantry)
                     dismiss()
                 } label: {
                     Text("Delete")
@@ -158,6 +154,10 @@ struct pantryItemDetailView: View {
         }
         .frame(maxWidth: .infinity)
         .background(Color.white)
+        .sheet(isPresented: $pantryItemEditSheet) {
+            PantryItemEditView(pantry: pantry)
+                .presentationDetents([.medium])
+        }
     }
 }
 
@@ -217,51 +217,58 @@ struct pantryItemDetailIntro: View {
 struct pantryItemDetailCondition: View {
     @StateObject var pantry: Pantry
     var body: some View{
-        HStack{
-            VStack{
+        HStack(spacing: 5){
+            VStack(spacing:0){
                 Text("Good")
                     .font(.headline)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 2.5)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
                 Text("Status")
                     .font(.caption)
             }
-            .padding(.horizontal, 30)
-            Spacer()
-            VStack{
-                Text(String(format: "%.0f", pantry.count))
-                    .font(.headline)
+            .frame(maxWidth: .infinity)
+            VStack(spacing:0){
+                CustomQuantityStepper(pantry: pantry, value: $pantry.count, stepValue: 1.0)
                 Text("Quantity")
                     .font(.caption)
             }
-            .padding(.horizontal, 10)
-            Spacer()
-            VStack{
-                Text(String(format: "%.0f", pantry.consumedAmount))
-                    .font(.headline)
-                Text("consumed")
+            .frame(maxWidth: .infinity)
+            VStack(spacing:0){
+                CustomStepperConsumed(pantry: pantry, stepValue: 10.0)
+                Text("remaining")
                     .font(.caption)
             }
-            .padding(.horizontal, 30)
+            .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
-//        .background(Color.gray)
         .padding(.horizontal, 20)
     }
 }
 
-//MARK: - Pantry Item Detail View - Stocked
+//MARK: - Pantry Item Detail View - Date
 struct pantryItemDetailExpStock: View {
     
     @StateObject var pantry: Pantry
     
     //Date Formatter
     let dateFormatter: DateFormatter = {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd MMM yy"
-            return formatter
-        }()
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM yy"
+        return formatter
+    }()
     
     var body: some View{
         HStack{
+            Spacer()
+            VStack{
+                Text(dateFormatter.string(from: pantry.unwrappedStockedDate))
+                    .font(.body)
+                Text("Stocked on")
+                    .font(.caption)
+            }
+            .padding(.horizontal, 10)
             Spacer()
             VStack{
                 Text(dateFormatter.string(from: pantry.unwrappedExpiryDate))
@@ -270,20 +277,10 @@ struct pantryItemDetailExpStock: View {
                     .font(.caption)
             }
             .padding(.horizontal, 10)
-            
-            Spacer()
-            
-            VStack{
-                Text(dateFormatter.string(from: pantry.unwrappedStockedDate))
-                    .font(.body)
-                Text("Stocked on")
-                    .font(.caption)
-            }
-//            .padding(.horizontal, 10)
             Spacer()
         }
         .frame(maxWidth: .infinity)
-//        .background(Color.gray)
+        //        .background(Color.gray)
         .padding(.horizontal, 20)
     }
 }
@@ -300,7 +297,7 @@ struct pantryItemDetailLocCat: View {
                 Text("Location")
                     .font(.caption)
             }
-//            .padding(.horizontal, 35)
+            //            .padding(.horizontal, 35)
             Spacer()
             Spacer()
             VStack{
@@ -309,26 +306,141 @@ struct pantryItemDetailLocCat: View {
                 Text("Category")
                     .font(.caption)
             }
-//            .padding(.horizontal, 35)
+            //            .padding(.horizontal, 35)
             Spacer()
         }
         .frame(maxWidth: .infinity)
-//        .background(Color.gray)
+        //        .background(Color.gray)
         .padding(.horizontal, 20)
-//
+        //
     }
 }
 
 //MARK: - Pantry Item Edit View
+enum Sheets:Identifiable {
+    case location
+    case category
+    
+    var id: String { UUID().uuidString }
+}
+
 struct PantryItemEditView: View {
+    
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
+    @StateObject var pantry: Pantry
+    @State var updatedStockedDate: Date = Date()
+    @State var updatedExpiryDate: Date = Date()
+    
+    @State var newItemName: String = ""
+    @State var newItemBrand: String = ""
+    @State var newLocation: String = "Unkown"
+    @State var newCategory: String = "None"
+    
+    @State var itemNameChanged: Bool = false
+    @State var stockedDateChanged: Bool = false
+    @State var expiryDateChanged: Bool = false
+    
+    var LocationList: [String] = ["Frezer","Fridge", "Kitchen Closet", "Chicken Shelf"]
+    
+    @State private var activeSheet: Sheets?
+    
+    @Environment(\.dismiss) var dismiss
     var body: some View{
-    Text("")
+        VStack{
+            // Text Fields to change the Title Name and Brand Name
+            HStack{
+                TextField("Item Name", text: $newItemName)
+                    .textFieldStyle(.roundedBorder)
+                    .onChange(of: newItemName) { newValue in
+                        itemNameChanged = true
+                    }
+                TextField("Item Brand", text: $newItemBrand)
+                    .textFieldStyle(.roundedBorder)
+                    .onChange(of: newItemBrand) { newValue in
+                        itemNameChanged = true
+                    }
+            }
+            
+            // Date Picker to change the
+            DatePicker("Stocked Date", selection: $updatedStockedDate, displayedComponents: [.date])
+                .onChange(of: updatedStockedDate) { newValue in
+                    stockedDateChanged = true
+                }
+            
+            DatePicker("Expiry Date", selection: $updatedExpiryDate, displayedComponents: [.date])
+                .onChange(of: updatedExpiryDate) { newValue in
+                    expiryDateChanged = true
+                }
+            
+            // Open a new sheet to choose Location Choice or add a new location
+            HStack{
+                Text("Location")
+                Spacer()
+                Button {
+                    activeSheet = .location
+                } label: {
+                    Text("Location")
+                        .foregroundColor(Color.black)
+                }
+            }
+            .padding(.vertical, 8)
+            
+            HStack{
+                Text("Category")
+                Spacer()
+                Button {
+                    activeSheet = .category
+                } label: {
+                    Text("Category")
+                        .foregroundColor(Color.black)
+                }
+            }
+            .padding(.vertical, 8)
+            
+            Button {
+                if stockedDateChanged{
+                    listNameCoreDataVM.updatePantryStockedDate(newPantryItems: pantry, pantryStockedDate: updatedStockedDate)
+                }
+                if expiryDateChanged{
+                    listNameCoreDataVM.updatePantryExpiryDate(newPantryItems: pantry, pantryExpiryDate: updatedExpiryDate)
+                }
+                if itemNameChanged{
+                    listNameCoreDataVM.updatePantryItemName(newPantryItems: pantry, pantryItemName: newItemName)
+                }
+                dismiss()
+            } label: {
+                Text("Done")
+                    .modifier(CustomButtonDesign())
+            }
+        }
+        .padding(20)
+        .sheet(item: $activeSheet) { sheet in
+            switch sheet {
+            case .location:
+                LocationEditView()
+                    .presentationDetents([.medium])
+            case .category:
+                CategoryEditView()
+                    .presentationDetents([.medium])
+            }
+        }
     }
 }
 
 
+//MARK: - Edit Location Picker View Sheet
+struct LocationEditView:View {
+    var body: some View{
+        Text("Location Edit")
+    }
+}
 
-
+//MARK: - Edit Category Picker View Sheet
+struct CategoryEditView:View {
+    var body: some View{
+        Text("Category Edit")
+    }
+}
 
 //MARK: - Custom Textfield Design
 struct CustomTextField: View {
@@ -385,20 +497,20 @@ struct CustomButtonDesign: ViewModifier {
             .cornerRadius(10)
             .padding(.horizontal, 20)
             .shadow(color: Color.black.opacity(0.4), radius: 5, x: 0, y: 5)
-            
-            
+        
+        
     }
 }
 
 //MARK: - Expiry Date Check Logic
 struct ExpiryDateCheck {
     
-    func expiryDateCheck(stockedDate: Date, expiryDate: Date) -> [Int]{
-        let components = Calendar.current.dateComponents([.day], from: stockedDate, to: expiryDate)
-        let totalDays = components.day!
+    func expiryDateCheck(expiryDate: Date) -> [Int]{
+        let components = Calendar.current.dateComponents([.day], from: Date(), to: expiryDate)
+        let totalDays = components.day! + 1
         var days = 0
         var weeks = 0
-
+        
         if totalDays > 7 {
             weeks = totalDays / 7
             days = totalDays % 7
@@ -410,11 +522,11 @@ struct ExpiryDateCheck {
 //MARK: - Expiry View
 struct expiryView: View {
     
-    var pantry: Pantry
+    @StateObject var pantry: Pantry
     
     var body: some View{
         VStack {
-            let dates = ExpiryDateCheck().expiryDateCheck(stockedDate: pantry.unwrappedStockedDate, expiryDate: pantry.unwrappedExpiryDate)
+            let dates = ExpiryDateCheck().expiryDateCheck(expiryDate: pantry.unwrappedExpiryDate)
             let totalDays = dates[0]
             let days = dates[1]
             let weeks = dates[2]
@@ -426,16 +538,27 @@ struct expiryView: View {
                     .font(.caption)
                 Text("Today")
                     .font(.title2)
-            }else if weeks == 0 {
+                
+                // Last 7 days
+            }else if (totalDays < 7 && weeks == 0) {
                 Text("Expires in")
                     .font(.caption)
-                Text(days == 1 ? "\(days) Day" : "\(days) Days")
+                Text(totalDays == 1 ? "\(totalDays) Day" : "\(totalDays) Days")
+                    .font(.title2)
+                
+                // Last 1 week
+            }else if (totalDays == 7 && weeks == 0) {
+                Text("Expires in")
+                    .font(.caption)
+                Text("1 Wk")
                     .font(.title2)
             }else if (weeks > 0 && days == 0) {
                 Text("Expires in")
                     .font(.caption)
                 Text(weeks == 1 ? "\(weeks) Wk" : "\(weeks) Wks" )
                     .font(.title2)
+                Text(days == 1 ? "\(days) Day" : "\(days) Days")
+                    .font(.body)
             }else if (weeks > 0 && days > 0) {
                 Text("Expires in")
                     .font(.caption)
@@ -449,7 +572,146 @@ struct expiryView: View {
 }
 
 
-//MARK: - Preview
+//MARK: - Custom Stepper View
+struct CustomQuantityStepper: View {
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
+    @StateObject var pantry: Pantry
+    @Binding var value: Double
+    @State var stepValue: Double
+    
+    @State private var count = 0
+    @State private var isAlert: Bool = false
+    
+    var body: some View {
+        HStack(spacing: 5) {
+            Button(action: {
+                if value > 1 {
+                    value -= stepValue
+                }else {
+                    isAlert = true
+                }
+            }) {
+                Image(systemName: "minus")
+                    .resizable()
+                    .foregroundColor(Color.orange)
+                    .frame(width: 10, height: 2)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 10)
+                    .cornerRadius(5)
+                
+            }
+            Text(String(format: "%.0f", value))
+                .font(.title3)
+                .fontWeight(.bold)
+            Button(action: {
+                if value < 10000 {
+                    value += stepValue
+                }
+            }) {
+                Image(systemName: "plus")
+                    .resizable()
+                    .foregroundColor(Color.orange)
+                    .frame(width: 15, height: 15)
+                    .padding(.horizontal, 5.5)
+                    .padding(.vertical, 3.5)
+                    .cornerRadius(5)
+            }
+        }
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
+        .alert("Count reached zero", isPresented: $isAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                
+                //Add the item to History
+                
+                
+                //Delete the item from pantry
+                listNameCoreDataVM.deletePantryItem(pantry: pantry)
+            }
+        } message: {
+            Text("If you have finished the item \nthen Click on Delete")
+        }
+    }
+}
+
+//MARK: - Custom Stepper Consumed
+struct CustomStepperConsumed: View {
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
+    @StateObject var pantry: Pantry
+    //    @Binding var pantry.consumedAmount: Double
+    @State var stepValue: Double
+    
+    @State private var isAlert: Bool = false
+    
+    
+    var body: some View {
+        HStack(spacing: 5) {
+            Button(action: {
+                if pantry.remainingAmount > 10 {
+                    pantry.remainingAmount -= stepValue
+                } else if pantry.count > 1 {
+                    pantry.count -= 1.0
+                    pantry.remainingAmount = 100.0
+                } else {
+                    isAlert = true
+                }
+            }) {
+                Image(systemName: "minus")
+                    .resizable()
+                    .foregroundColor(Color.orange)
+                    .frame(width: 10, height: 2)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 10)
+                    .cornerRadius(5)
+            }
+            
+            Text(String(format: "%.0f%%", (pantry.remainingAmount)))
+                .padding(.vertical, 5)
+                .font(.subheadline)
+                .fontWeight(.bold)
+            Button(action: {
+                if pantry.remainingAmount < 100.0 {
+                    pantry.remainingAmount += stepValue
+                } else {
+                    pantry.count += 1.0
+                    pantry.remainingAmount = 10.0
+                }
+            }) {
+                Image(systemName: "plus")
+                    .resizable()
+                    .foregroundColor(Color.orange)
+                    .frame(width: 15, height: 15)
+                    .padding(.horizontal, 5.5)
+                    .padding(.vertical, 3.5)
+                    .cornerRadius(5)
+            }
+        }
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(10)
+        .alert("Count reached zero", isPresented: $isAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                
+                //Add the item to History
+                
+                
+                //Delete the item from pantry
+                listNameCoreDataVM.deletePantryItem(pantry: pantry)
+            }
+        } message: {
+            Text("If you have finished the item \nthen Click on Delete")
+        }
+    }
+    
+    func showAlert() {
+        
+    }
+}
+
+
+//MARK: - Preview Section
+
 struct PantryMainView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack{
