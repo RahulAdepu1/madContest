@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA4AA2EE29DC9DB300C0D9FD /* Category+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2E629DC9DB300C0D9FD /* Category+CoreDataClass.swift */; };
+		DA4AA2EF29DC9DB300C0D9FD /* Category+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2E729DC9DB300C0D9FD /* Category+CoreDataProperties.swift */; };
+		DA4AA2F029DC9DB300C0D9FD /* Expenses+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2E829DC9DB300C0D9FD /* Expenses+CoreDataClass.swift */; };
+		DA4AA2F129DC9DB300C0D9FD /* Expenses+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2E929DC9DB300C0D9FD /* Expenses+CoreDataProperties.swift */; };
+		DA4AA2F229DC9DB300C0D9FD /* History+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2EA29DC9DB300C0D9FD /* History+CoreDataClass.swift */; };
+		DA4AA2F329DC9DB300C0D9FD /* History+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2EB29DC9DB300C0D9FD /* History+CoreDataProperties.swift */; };
+		DA4AA2F429DC9DB300C0D9FD /* Location+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2EC29DC9DB300C0D9FD /* Location+CoreDataClass.swift */; };
+		DA4AA2F529DC9DB300C0D9FD /* Location+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4AA2ED29DC9DB300C0D9FD /* Location+CoreDataProperties.swift */; };
 		DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */; };
 		DADC11FC29DB581E004A25FD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FB29DB581E004A25FD /* Assets.xcassets */; };
 		DADC11FF29DB581E004A25FD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DADC11FE29DB581E004A25FD /* Preview Assets.xcassets */; };
@@ -24,6 +32,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		DA4AA2E629DC9DB300C0D9FD /* Category+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataClass.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Category/Category+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2E729DC9DB300C0D9FD /* Category+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Category+CoreDataProperties.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Category/Category+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2E829DC9DB300C0D9FD /* Expenses+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Expenses+CoreDataClass.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Expenses/Expenses+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2E929DC9DB300C0D9FD /* Expenses+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Expenses+CoreDataProperties.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Expenses/Expenses+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2EA29DC9DB300C0D9FD /* History+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "History+CoreDataClass.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/History/History+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2EB29DC9DB300C0D9FD /* History+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "History+CoreDataProperties.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/History/History+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2EC29DC9DB300C0D9FD /* Location+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataClass.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Location/Location+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		DA4AA2ED29DC9DB300C0D9FD /* Location+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Location+CoreDataProperties.swift"; path = "groceryCalculator/Core_Data/CoreDataProperties/Location/Location+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		DADC11F429DB581D004A25FD /* groceryCalculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = groceryCalculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = groceryCalculatorApp.swift; sourceTree = "<group>"; };
 		DADC11FB29DB581E004A25FD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -52,6 +68,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DA4AA2F629DC9DBF00C0D9FD /* History */ = {
+			isa = PBXGroup;
+			children = (
+				DA4AA2EA29DC9DB300C0D9FD /* History+CoreDataClass.swift */,
+				DA4AA2EB29DC9DB300C0D9FD /* History+CoreDataProperties.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+		DA4AA2F729DC9DC900C0D9FD /* Expenses */ = {
+			isa = PBXGroup;
+			children = (
+				DA4AA2E829DC9DB300C0D9FD /* Expenses+CoreDataClass.swift */,
+				DA4AA2E929DC9DB300C0D9FD /* Expenses+CoreDataProperties.swift */,
+			);
+			path = Expenses;
+			sourceTree = "<group>";
+		};
+		DA4AA2F829DC9DD200C0D9FD /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				DA4AA2E629DC9DB300C0D9FD /* Category+CoreDataClass.swift */,
+				DA4AA2E729DC9DB300C0D9FD /* Category+CoreDataProperties.swift */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		DA4AA2F929DC9DDA00C0D9FD /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				DA4AA2EC29DC9DB300C0D9FD /* Location+CoreDataClass.swift */,
+				DA4AA2ED29DC9DB300C0D9FD /* Location+CoreDataProperties.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 		DADC11EB29DB581D004A25FD = {
 			isa = PBXGroup;
 			children = (
@@ -103,6 +155,10 @@
 		DADC120929DB63C9004A25FD /* CoreDataProperties */ = {
 			isa = PBXGroup;
 			children = (
+				DA4AA2F929DC9DDA00C0D9FD /* Location */,
+				DA4AA2F829DC9DD200C0D9FD /* Category */,
+				DA4AA2F729DC9DC900C0D9FD /* Expenses */,
+				DA4AA2F629DC9DBF00C0D9FD /* History */,
 				DADC121729DB6682004A25FD /* ListName */,
 				DADC121829DB6690004A25FD /* ListItem */,
 				DADC121929DB66A3004A25FD /* Pantry */,
@@ -234,12 +290,20 @@
 				DADC121129DB662E004A25FD /* ListName+CoreDataClass.swift in Sources */,
 				DADC122229DB6DE7004A25FD /* PantryMainView.swift in Sources */,
 				DADC122729DB87CC004A25FD /* HistoryMainView.swift in Sources */,
+				DA4AA2EE29DC9DB300C0D9FD /* Category+CoreDataClass.swift in Sources */,
+				DA4AA2F529DC9DB300C0D9FD /* Location+CoreDataProperties.swift in Sources */,
 				DADC121229DB662E004A25FD /* ListName+CoreDataProperties.swift in Sources */,
+				DA4AA2F229DC9DB300C0D9FD /* History+CoreDataClass.swift in Sources */,
 				DADC121329DB662E004A25FD /* ListItem+CoreDataClass.swift in Sources */,
+				DA4AA2F129DC9DB300C0D9FD /* Expenses+CoreDataProperties.swift in Sources */,
 				DADC121429DB662E004A25FD /* ListItem+CoreDataProperties.swift in Sources */,
+				DA4AA2F429DC9DB300C0D9FD /* Location+CoreDataClass.swift in Sources */,
+				DA4AA2EF29DC9DB300C0D9FD /* Category+CoreDataProperties.swift in Sources */,
 				DADC121E29DB69B6004A25FD /* ShoppingListMainView.swift in Sources */,
 				DADC121629DB662E004A25FD /* Pantry+CoreDataProperties.swift in Sources */,
 				DADC11F829DB581D004A25FD /* groceryCalculatorApp.swift in Sources */,
+				DA4AA2F029DC9DB300C0D9FD /* Expenses+CoreDataClass.swift in Sources */,
+				DA4AA2F329DC9DB300C0D9FD /* History+CoreDataProperties.swift in Sources */,
 				DADC120729DB61C3004A25FD /* CoreDataModel.xcdatamodeld in Sources */,
 				DADC121B29DB676B004A25FD /* CoreDataManager.swift in Sources */,
 				DADC121529DB662E004A25FD /* Pantry+CoreDataClass.swift in Sources */,
