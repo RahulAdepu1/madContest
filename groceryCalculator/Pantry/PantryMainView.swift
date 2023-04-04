@@ -17,7 +17,7 @@ struct PantryMainView: View {
             let pantry = listNameCoreDataVM.pantryCoreData
             if pantry.isEmpty {
                 ZStack {
-                    Color.gray.ignoresSafeArea()
+                    Color.clear.ignoresSafeArea()
                     Text("Empty")
                 }
             }else {
@@ -29,7 +29,7 @@ struct PantryMainView: View {
                         
                     }.padding(.top, 30)
                 }
-                .background(Color.black.opacity(0.4))
+                .background(Color.clear)
             }
         }
         .navigationTitle("Pantry")
@@ -53,13 +53,14 @@ struct pantryRowView: View {
             Image(systemName: "person")
                 .resizable()
                 .scaledToFit()
-                .foregroundColor(.white.opacity(0.5))
+                .foregroundColor(.black)
                 .frame(width: 40, height: 40)
                 .padding(10)
                 .background(
-                    Color.black.opacity(0.5)
+                    Color.white
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                 )
+                .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
             //                .padding(.leading, 10)
                 .overlay(alignment: .bottomTrailing) {
                     Circle().fill(Color.white)
@@ -71,14 +72,18 @@ struct pantryRowView: View {
                                 .foregroundColor(.black)
                                 .offset(x: 5, y: 5)
                         }
+                        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+                        
                 }
             
             VStack(alignment: .leading) {
                 Text(pantry.itemName ?? "UnKnown")
                     .font(.body)
+                    .foregroundColor(Color.black)
                     .padding(.top, 1)
                 Text(pantry.itemBrand ?? "")
                     .font(.subheadline)
+                    .foregroundColor(Color.black)
                     .padding(.bottom, 1)
             }
             Spacer()
@@ -90,8 +95,10 @@ struct pantryRowView: View {
         .foregroundColor(.white.opacity(0.5))
         .padding(10)
         .frame(maxWidth: .infinity)
-        .background(Color.black.opacity(0.5))
+        .foregroundColor(Color.black)
+        .background(Color.white)
         .cornerRadius(10)
+        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
         .padding(.horizontal, 20)
         
         .onTapGesture(count: 1, perform: {
@@ -229,9 +236,16 @@ struct pantryItemDetailCondition: View {
                     .font(.headline)
                     .padding(.horizontal, 10)
                     .padding(.vertical, 2.5)
-                    .background(totalDays > 8 ? Color.green.opacity(0.2) :
-                                    totalDays > 2 ? Color.yellow.opacity(0.2) : Color.red.opacity(0.2))
+                    .background(totalDays > 8 ? Color.green.opacity(1) :
+                                    totalDays > 2 ? Color.yellow.opacity(1) : Color.red.opacity(1))
                     .cornerRadius(10)
+                    .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+                    .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.black, lineWidth: 0.1)
+                            
+                        )
+                    .padding(.bottom, 6)
                 Text("Status")
                     .font(.caption)
             }
@@ -575,6 +589,7 @@ struct expiryView: View {
                     .font(.body)
             }
         }
+        .foregroundColor(Color.black)
     }
 }
 
@@ -624,8 +639,11 @@ struct CustomQuantityStepper: View {
                     .cornerRadius(5)
             }
         }
-        .background(Color.gray.opacity(0.2))
+        .foregroundColor(Color.black)
+        .background(Color.white)
         .cornerRadius(10)
+        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+        .padding(.bottom, 6)
         .alert("Count reached zero", isPresented: $isAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {
@@ -694,8 +712,11 @@ struct CustomStepperConsumed: View {
                     .cornerRadius(5)
             }
         }
-        .background(Color.gray.opacity(0.2))
+        .foregroundColor(Color.black)
+        .background(Color.white)
         .cornerRadius(10)
+        .shadow(color: .black.opacity(0.2), radius: 2, x: 0, y: 2)
+        .padding(.bottom, 6)
         .alert("Count reached zero", isPresented: $isAlert) {
             Button("Cancel", role: .cancel) { }
             Button("Delete", role: .destructive) {

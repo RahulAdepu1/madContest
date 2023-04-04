@@ -139,7 +139,7 @@ class ListNameCoreDataVM: ObservableObject {
         newPantryItems.id = UUID().uuidString
         newPantryItems.itemName = itemName
         newPantryItems.itemBrand = ""
-        newPantryItems.category = "None"
+        newPantryItems.category = "All"
         newPantryItems.location = "Unknown"
         newPantryItems.storeName = "None"
         newPantryItems.purchaseType = "None"

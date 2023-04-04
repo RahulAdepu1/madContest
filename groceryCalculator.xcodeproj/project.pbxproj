@@ -71,8 +71,8 @@
 		DADC11F629DB581D004A25FD /* groceryCalculator */ = {
 			isa = PBXGroup;
 			children = (
-				DADC122529DB87A4004A25FD /* History */,
 				DADC120829DB63B5004A25FD /* Core_Data */,
+				DADC122529DB87A4004A25FD /* History */,
 				DADC122029DB6DD7004A25FD /* Pantry */,
 				DADC121C29DB6996004A25FD /* ShoppingList */,
 				DADC11F729DB581D004A25FD /* groceryCalculatorApp.swift */,

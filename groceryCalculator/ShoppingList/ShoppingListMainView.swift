@@ -18,8 +18,11 @@ struct ShoppingListMainView: View {
             let listName = listNameCoreDataVM.listNameCoreData
             if listName.isEmpty {
                 ZStack {
-                    Color.gray.ignoresSafeArea()
-                    Text("Empty")
+                    Color.clear.ignoresSafeArea()
+                    VStack {
+                        Text("Click On the Plus Button")
+                        Text("to Create a new List")
+                    }
                 }
             }else {
                 ZStack {
@@ -39,6 +42,7 @@ struct ShoppingListMainView: View {
                         .onDelete(perform: listNameCoreDataVM.deleteListName)
                     }
                 }
+                .background(Color.clear)
             }
             Button {
                 sheetShow.toggle()
@@ -60,7 +64,7 @@ struct ShoppingListMainView: View {
             //Add List Name Sheet Show VIEW --------------------------------------------------------------------------------------
             AddListNameSheetShow()
         }
-        .navigationTitle("ListName")
+        .navigationTitle("Lists")
         .navigationBarTitleDisplayMode(.inline)
     }
 }
@@ -73,12 +77,14 @@ struct AddListNameSheetShow: View {
     @Environment(\.dismiss) private var dismiss
     
     var body: some View{
-        VStack {
+        VStack(spacing: 20) {
             TextField("Add List Name", text: $inputTextName)
                 .padding(20)
+                .foregroundColor(Color.black)
                 .frame(maxWidth: .infinity)
-                .background(Color.gray)
+                .background(Color.white)
                 .cornerRadius(10)
+                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .padding(.horizontal, 20)
             HStack {
                 Button {
@@ -89,10 +95,11 @@ struct AddListNameSheetShow: View {
                 } label: {
                     Text("Done")
                         .padding(.vertical, 10)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 20)
                 }
                 Button {
@@ -100,15 +107,16 @@ struct AddListNameSheetShow: View {
                 } label: {
                     Text("Cancel")
                         .padding(.vertical, 10)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 20)
                 }
             }
         }
-        .presentationDetents([.height(150)])
+//        .presentationDetents([.height(150)])
     }
 }
 
@@ -276,13 +284,14 @@ struct AddListItemSheetShow: View {
     
     var body: some View{
         VStack {
-            TextField("Add List Name", text: $inputTextName)
+            TextField("Add Item Name", text: $inputTextName)
                 .padding(20)
                 .frame(maxWidth: .infinity)
-                .background(Color.gray)
+                .background(Color.white)
                 .cornerRadius(10)
+                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .padding( 20)
-            VStack {
+            HStack {
                 Button {
                     if !(inputTextName.count<2) {
                         listNameCoreDataVM.addListItem(inputListItem: inputTextName, listName: listNameCoreData)
@@ -292,10 +301,11 @@ struct AddListItemSheetShow: View {
                 } label: {
                     Text("Done")
                         .padding(10)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 20)
                 }
                 Button {
@@ -303,10 +313,11 @@ struct AddListItemSheetShow: View {
                 } label: {
                     Text("Cancel")
                         .padding(10)
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 20)
                 }
             }
@@ -320,22 +331,23 @@ struct AddListItemSheetShow: View {
 struct ToggleListItemSheetShow: View {
     
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
-    //    @EnvironmentObject var listItemCoreDataVM: ListItemCoreDataVM
     @StateObject var listItem: ListItem
     
     @Environment(\.dismiss) private var dismiss
     var body: some View{
-        VStack(spacing: 5) {
+        VStack(spacing: 10) {
             Button {
                 listNameCoreDataVM.updateIsLooking(listItemsCoreData: listItem)
                 dismiss()
             } label: {
                 Text("Still Looking")
-                    .frame(height: 50)
+                    .frame(height: 40)
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(Color.black)
+                    .background(Color.white)
                     .cornerRadius(10)
-                    .padding(.horizontal, 10)
+                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
+                    .padding(.horizontal, 50)
             }
             
             Button {
@@ -343,11 +355,13 @@ struct ToggleListItemSheetShow: View {
                 dismiss()
             } label: {
                 Text("Found")
-                    .frame(height: 50)
+                    .frame(height: 40)
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(Color.black)
+                    .background(Color.white)
                     .cornerRadius(10)
-                    .padding(.horizontal, 10)
+                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
+                    .padding(.horizontal, 50)
             }
             
             Button {
@@ -355,11 +369,13 @@ struct ToggleListItemSheetShow: View {
                 dismiss()
             } label: {
                 Text("Not Found")
-                    .frame(height: 50)
+                    .frame(height: 40)
                     .frame(maxWidth: .infinity)
-                    .background(Color.gray.opacity(0.2))
+                    .foregroundColor(Color.black)
+                    .background(Color.white)
                     .cornerRadius(10)
-                    .padding(.horizontal, 10)
+                    .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
+                    .padding(.horizontal, 50)
             }
         }
     }
@@ -388,6 +404,7 @@ struct DoneView: View {
                             if (listItem.isLooking && listItem.isFound) {
                                 HStack {
                                     Text(listItem.unwrappeditemName)
+                                    Spacer()
                                     Text(String(format: "%.0f", listItem.itemCount))
                                 }
                             }
@@ -395,8 +412,10 @@ struct DoneView: View {
                         .padding(10)
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(Color.black)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 10)
                     }
                     Button(action: {
@@ -417,8 +436,10 @@ struct DoneView: View {
                 .padding(10)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .background(Color.gray.opacity(0.7))
+                .foregroundColor(Color.black)
+                .background(Color.white)
                 .cornerRadius(10)
+                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .padding(.horizontal, 10)
                 
                 VStack{
@@ -435,8 +456,10 @@ struct DoneView: View {
                         .padding(10)
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
-                        .background(Color.gray.opacity(0.2))
+                        .foregroundColor(Color.black)
+                        .background(Color.white)
                         .cornerRadius(10)
+                        .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                         .padding(.horizontal, 10)
                     }
                     
@@ -457,8 +480,10 @@ struct DoneView: View {
                 .padding(10)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
-                .background(Color.gray.opacity(0.7))
+                .foregroundColor(Color.black)
+                .background(Color.white)
                 .cornerRadius(10)
+                .shadow(color: .black.opacity(0.2), radius: 5, x: 0, y: 2)
                 .padding(.horizontal, 10)
                 .padding(.bottom, 50)
                 
