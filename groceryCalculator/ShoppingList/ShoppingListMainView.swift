@@ -79,7 +79,7 @@ struct AddListNameSheetShow: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.gray)
                 .cornerRadius(10)
-                .padding( 20)
+                .padding(.horizontal, 20)
             HStack {
                 Button {
                     if !inputTextName.isEmpty{
@@ -108,7 +108,7 @@ struct AddListNameSheetShow: View {
                 }
             }
         }
-        .presentationDetents([.height(200)])
+        .presentationDetents([.height(150)])
     }
 }
 
@@ -150,10 +150,10 @@ struct ListItemView: View {
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @StateObject var listNameCoreData: ListName
     
-    //    var stillLookingItems: [Binding<ListItem>] {
-    //        $listNameCoreDataVM.stillLookingItemsArray.filter{ !$0.isLooking.wrappedValue && !$0.isFound.wrappedValue}
-    //    }
-    //
+    var stillLookingItems: [Binding<ListItem>] {
+        $listNameCoreDataVM.stillLookingItemsArray.filter{ !$0.isLooking.wrappedValue && !$0.isFound.wrappedValue}
+    }
+    
     //    var foundItems: [Binding<ListItem>] {
     //        $listNameCoreDataVM.foundItemsArray.filter{ $0.isLooking.wrappedValue && $0.isFound.wrappedValue}
     //    }
@@ -192,46 +192,6 @@ struct ListItemView: View {
                 .onDelete(perform: deleteListItem)
             }
             
-            
-            //            List{
-            //                Section{
-            //                    if stillLookingItems.isEmpty {
-            //                        Text("Nothing Left to shop For")
-            //                    }else {
-            //                        ForEach(stillLookingItems){ $listItem in
-            //                                ListItemRowView(listItem: $listItem)
-            //                        }.onDelete(perform: deleteListItem)
-            //                    }
-            //                } header: {
-            //                    Text("Still Looking")
-            //                }
-            //                Section{
-            //                    if foundItems.isEmpty {
-            //                        Text("Nothing here")
-            //                    }else {
-            //                        ForEach(foundItems){ $listItem in
-            //                                ListItemRowView(listItem: $listItem)
-            //                        }.onDelete(perform: deleteListItem)
-            //                    }
-            //                } header: {
-            //                    Text("Found")
-            //                }
-            //                Section{
-            //                    if notFoundItems.isEmpty {
-            //                        Text("found everything?")
-            //                    }else {
-            //                        ForEach(notFoundItems){ $listItem in
-            //                                ListItemRowView(listItem: $listItem)
-            //                        }.onDelete(perform: deleteListItem)
-            //                    }
-            //                } header: {
-            //                    Text("Not Found")
-            //                }
-            //            }
-            
-            
-            //            Style of the list
-            //            .listStyle(.plain)
             Button {
                 sheetShow.toggle()
             } label: {
@@ -246,6 +206,11 @@ struct ListItemView: View {
                     .shadow(color: Color.black.opacity(0.2), radius: 10)
             }
             .padding(50)
+            
+            // Hide the button until there are no items left in items not Found
+//            if stillLookingItems.isEmpty {
+//                Text("Hello")
+//            }
         }
         .sheet(isPresented: $sheetShow) {
             AddListItemSheetShow(listNameCoreData: listNameCoreData)
@@ -296,7 +261,7 @@ struct ListItemRowView: View {
         }
         .sheet(isPresented: $sheetShow) {
             ToggleListItemSheetShow(listItem: listItem)
-                .presentationDetents([.height(200)])
+                .presentationDetents([.height(170)])
         }
     }
 }
@@ -360,12 +325,17 @@ struct ToggleListItemSheetShow: View {
     
     @Environment(\.dismiss) private var dismiss
     var body: some View{
-        VStack {
+        VStack(spacing: 5) {
             Button {
                 listNameCoreDataVM.updateIsLooking(listItemsCoreData: listItem)
                 dismiss()
             } label: {
                 Text("Still Looking")
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 10)
             }
             
             Button {
@@ -373,6 +343,11 @@ struct ToggleListItemSheetShow: View {
                 dismiss()
             } label: {
                 Text("Found")
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 10)
             }
             
             Button {
@@ -380,6 +355,11 @@ struct ToggleListItemSheetShow: View {
                 dismiss()
             } label: {
                 Text("Not Found")
+                    .frame(height: 50)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 10)
             }
         }
     }
@@ -398,25 +378,27 @@ struct DoneView: View {
     
     var body: some View{
         ZStack {
-            Color.black
+            Color.gray.opacity(0.2)
             VStack{
+                Spacer()
                 VStack{
-                    ForEach(listNameCoreDataVM.foundItemsArray) { listItem in
-                        // All the items that are found to be moved to pantry
-                        if (listItem.isLooking && listItem.isFound) {
-                            HStack {
-                                Text(listItem.unwrappeditemName)
-                                Text(String(format: "%.0f", listItem.itemCount))
+                    if !listNameCoreDataVM.foundItemsArray.isEmpty {
+                        ForEach(listNameCoreDataVM.foundItemsArray) { listItem in
+                            // All the items that are found to be moved to pantry
+                            if (listItem.isLooking && listItem.isFound) {
+                                HStack {
+                                    Text(listItem.unwrappeditemName)
+                                    Text(String(format: "%.0f", listItem.itemCount))
+                                }
                             }
                         }
+                        .padding(10)
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding(.horizontal, 10)
                     }
-                    .padding(10)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 20)
-                    
                     Button(action: {
                         for listItem in listNameCoreData.itemsArray {
                             listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName, itemCount: listItem.itemCount)
@@ -430,31 +412,33 @@ struct DoneView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.red)
                     .cornerRadius(10)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 10)
                 }
                 .padding(10)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .background(Color.gray.opacity(0.7))
                 .cornerRadius(10)
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 10)
                 
                 VStack{
-                    ForEach(listNameCoreDataVM.notFoundItemsArray) { listItem in
-                        // All the items that are not found to be moved to a new List
-                        if (listItem.isLooking && !listItem.isFound) {
-                            HStack {
-                                Text(listItem.unwrappeditemName)
-                                Text(String(format: "%.0f", listItem.itemCount))
+                    if !listNameCoreDataVM.notFoundItemsArray.isEmpty {
+                        ForEach(listNameCoreDataVM.notFoundItemsArray) { listItem in
+                            // All the items that are not found to be moved to a new List
+                            if (listItem.isLooking && !listItem.isFound) {
+                                HStack {
+                                    Text(listItem.unwrappeditemName)
+                                    Text(String(format: "%.0f", listItem.itemCount))
+                                }
                             }
                         }
+                        .padding(10)
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(10)
+                        .padding(.horizontal, 10)
                     }
-                    .padding(10)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.gray)
-                    .cornerRadius(10)
-                    .padding(.horizontal, 20)
                     
                     Button(action: {
                         //                    for listItem in listNameCoreData.itemsArray {
@@ -468,15 +452,17 @@ struct DoneView: View {
                     .frame(maxWidth: .infinity)
                     .background(Color.red)
                     .cornerRadius(10)
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 10)
                 }
                 .padding(10)
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity)
                 .background(Color.gray.opacity(0.7))
                 .cornerRadius(10)
-                .padding(.horizontal, 20)
+                .padding(.horizontal, 10)
                 .padding(.bottom, 50)
+                
+                Spacer()
                 
                 Button {
                     dismiss()
@@ -488,7 +474,7 @@ struct DoneView: View {
                 .frame(maxWidth: .infinity)
                 .background(Color.red)
                 .cornerRadius(10)
-                .padding(.horizontal, 20)
+                .padding(20)
                 
             }
         }
