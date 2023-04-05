@@ -400,6 +400,7 @@ struct PantryItemEditView: View {
     @State var newCategory: String = "None"
     
     @State var itemNameChanged: Bool = false
+    @State var itemBrandChanged: Bool = false
     @State var stockedDateChanged: Bool = false
     @State var expiryDateChanged: Bool = false
     
@@ -420,7 +421,7 @@ struct PantryItemEditView: View {
                 TextField("Item Brand", text: $newItemBrand)
                     .textFieldStyle(.roundedBorder)
                     .onChange(of: newItemBrand) { newValue in
-                        itemNameChanged = true
+                        itemBrandChanged = true
                     }
             }
             
@@ -469,6 +470,9 @@ struct PantryItemEditView: View {
                 }
                 if itemNameChanged{
                     listNameCoreDataVM.updatePantryItemName(newPantryItems: pantry, pantryItemName: newItemName)
+                }
+                if itemBrandChanged{
+                    listNameCoreDataVM.updatePantryItemBrand(newPantryItems: pantry, pantryItemBrand: newItemBrand)
                 }
                 dismiss()
             } label: {
