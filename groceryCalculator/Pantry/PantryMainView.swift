@@ -412,6 +412,8 @@ struct PantryItemEditView: View {
     var body: some View{
         VStack{
             // Text Fields to change the Title Name and Brand Name
+//            Text("Edit Item Name and Brand Name")
+            Text("Edit Mode")
             HStack{
                 TextField("Item Name", text: $newItemName)
                     .textFieldStyle(.roundedBorder)
@@ -443,11 +445,13 @@ struct PantryItemEditView: View {
                 Button {
                     activeSheet = .location
                 } label: {
-                    Text("Location")
+                    Text(pantry.unwrappedLocation)
                         .foregroundColor(Color.black)
+                        .frame(width: 115, height: 30)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
                 }
             }
-            .padding(.vertical, 8)
             
             HStack{
                 Text("Category")
@@ -455,11 +459,13 @@ struct PantryItemEditView: View {
                 Button {
                     activeSheet = .category
                 } label: {
-                    Text("Category")
+                    Text(pantry.unwrappedCategory)
                         .foregroundColor(Color.black)
+                        .frame(width: 115, height: 30)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(8)
                 }
             }
-            .padding(.vertical, 8)
             
             Button {
                 if stockedDateChanged{
@@ -484,7 +490,7 @@ struct PantryItemEditView: View {
         .sheet(item: $activeSheet) { sheet in
             switch sheet {
             case .location:
-                LocationEditView()
+                LocationEditView(pantry: pantry)
                     .presentationDetents([.medium])
             case .category:
                 CategoryEditView()
@@ -497,8 +503,48 @@ struct PantryItemEditView: View {
 
 //MARK: - Edit Location Picker View Sheet
 struct LocationEditView:View {
-    var body: some View{
-        Text("Location Edit")
+    
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
+    @StateObject var pantry: Pantry
+    
+    let items = ["Unknown", "Fridge", "Freezer", "Kitchen draw", "Top shelf", "Bottom shelf"]
+    @State private var selectedItem = "Unkown"
+    
+    @State var itemlocationChanged: Bool = false
+    @Environment(\.dismiss) var dismiss
+    
+    var body: some View {
+        VStack {
+            Picker("Select Item", selection: $selectedItem) {
+                ForEach(items, id: \.self) { item in
+                    Text(item).tag(item)
+                }
+            }
+            .pickerStyle(WheelPickerStyle())
+            .frame(maxWidth: .infinity)
+            .padding()
+            .onChange(of: selectedItem) { newValue in
+                itemlocationChanged = true
+            }
+        }
+        HStack{
+            Button {
+                if itemlocationChanged {
+                    listNameCoreDataVM.updatePantryLocation(newPantryItems: pantry, pantryLocation: selectedItem)
+                }
+                dismiss()
+            } label: {
+                Text("Done")
+                    .modifier(CustomButtonDesign())
+            }
+            
+            Button {
+                dismiss()
+            } label: {
+                Text("Add Custom")
+                    .modifier(CustomButtonDesign())
+            }
+        }
     }
 }
 
@@ -508,6 +554,14 @@ struct CategoryEditView:View {
         Text("Category Edit")
     }
 }
+
+
+
+
+
+
+
+
 
 //MARK: - Custom Textfield Design
 struct CustomTextField: View {
