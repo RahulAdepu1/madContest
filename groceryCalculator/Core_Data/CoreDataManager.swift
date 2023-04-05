@@ -130,7 +130,7 @@ class ListNameCoreDataVM: ObservableObject {
     
     func fetchPantry() {
         let requestPantry = NSFetchRequest<Pantry>(entityName: pantryEntity)
-        requestPantry.sortDescriptors = [sortPantryDescriptor()]
+        requestPantry.sortDescriptors = sortPantryDescriptor()
         
         // For Search Bar
         if !pantrySearchText.isEmpty {
@@ -173,14 +173,19 @@ class ListNameCoreDataVM: ObservableObject {
 //------------------------------------------------------------------------------------------------------------------------
     
     // Sort Function for Pantry
-    func sortPantryDescriptor() -> NSSortDescriptor {
+    func sortPantryDescriptor() -> [NSSortDescriptor] {
+        
+        let sortByItemName = NSSortDescriptor(keyPath: \Pantry.itemName, ascending: pantryAscending)
+        let sortByCost = NSSortDescriptor(keyPath: \Pantry.cost, ascending: pantryAscending)
+        let sortByExpiryDate = NSSortDescriptor(keyPath: \Pantry.expiryDate, ascending: pantryAscending)
+        
         switch pantrySortOption {
         case .default:
-            return NSSortDescriptor(keyPath: \Pantry.itemName, ascending: pantryAscending)
+            return [sortByItemName]
         case .cost:
-            return NSSortDescriptor(keyPath: \Pantry.cost, ascending: pantryAscending)
+            return [sortByCost]
         case .date:
-            return NSSortDescriptor(keyPath: \Pantry.expiryDate, ascending: pantryAscending)
+            return [sortByExpiryDate]
         }
     }
     

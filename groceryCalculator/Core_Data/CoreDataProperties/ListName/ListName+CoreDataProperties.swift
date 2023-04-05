@@ -28,9 +28,17 @@ extension ListName {
     public var itemsArray: [ListItem] {
         let itemsSet = items as? Set<ListItem> ?? []
         
-        return itemsSet.sorted {
-            $0.unwrappeditemName < $1.unwrappeditemName
-        }
+        return itemsSet.sorted(by: { (item1, item2) -> Bool in
+            if item1.isLooking != item2.isLooking {
+                return !item1.isLooking && item2.isLooking
+            }
+            else if item1.isFound != item2.isFound {
+                return item1.isFound && !item2.isFound
+            }
+            else {
+                return true
+            }
+        })
     }
     
     public var myDate: Date {

@@ -158,9 +158,9 @@ struct ListItemView: View {
     @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @StateObject var listNameCoreData: ListName
     
-    var stillLookingItems: [Binding<ListItem>] {
-        $listNameCoreDataVM.stillLookingItemsArray.filter{ !$0.isLooking.wrappedValue && !$0.isFound.wrappedValue}
-    }
+    //    var stillLookingItems: [Binding<ListItem>] {
+    //        $listNameCoreDataVM.stillLookingItemsArray.filter{ !$0.isLooking.wrappedValue && !$0.isFound.wrappedValue}
+    //    }
     
     //    var foundItems: [Binding<ListItem>] {
     //        $listNameCoreDataVM.foundItemsArray.filter{ $0.isLooking.wrappedValue && $0.isFound.wrappedValue}
@@ -178,24 +178,8 @@ struct ListItemView: View {
         
         ZStack(alignment: .bottomTrailing) {
             List{
-                ForEach(listNameCoreData.itemsArray) { listItem in
-                    if (!listItem.isLooking && !listItem.isFound) {
-                        ListItemRowView(listItem: listItem)
-                    }
-                }
-                .onDelete(perform: deleteListItem)
-                
-                ForEach(listNameCoreData.itemsArray) { listItem in
-                    if (listItem.isLooking && listItem.isFound) {
-                        ListItemRowView(listItem: listItem)
-                    }
-                }
-                .onDelete(perform: deleteListItem)
-                
-                ForEach(listNameCoreData.itemsArray) { listItem in
-                    if (listItem.isLooking && !listItem.isFound) {
-                        ListItemRowView(listItem: listItem)
-                    }
+                ForEach(listNameCoreData.itemsArray) { item in
+                    ListItemRowView(listItem: item)
                 }
                 .onDelete(perform: deleteListItem)
             }
@@ -214,11 +198,6 @@ struct ListItemView: View {
                     .shadow(color: Color.black.opacity(0.2), radius: 10)
             }
             .padding(50)
-            
-            // Hide the button until there are no items left in items not Found
-//            if stillLookingItems.isEmpty {
-//                Text("Hello")
-//            }
         }
         .sheet(isPresented: $sheetShow) {
             AddListItemSheetShow(listNameCoreData: listNameCoreData)
@@ -230,9 +209,8 @@ struct ListItemView: View {
                 NavigationLink {
                     DoneView(listNameCoreData: listNameCoreData)
                 } label: {
-                    Text("Done")
+                    Text("Checkout")
                 }
-                
             }
         }
     }
