@@ -21,9 +21,8 @@ extension Expenses {
     @NSManaged public var cost: Double
     @NSManaged public var storeName: String?
     @NSManaged public var purchasedDate: Date?
+    @NSManaged public var id: String?
 
-    public var unwrappedStoreName: String { storeName ?? "None" }
-    public var unwrappedCategory: String { category ?? "All" }
 }
 
 extension Expenses : Identifiable {

@@ -43,6 +43,14 @@ extension Pantry {
         let date = stockedDate ?? Date()
         return date
     }
+    
+    public var unwrappedItemName: String { itemName ?? "" }
+    public var unwrappedItemBrand: String { itemBrand ?? "" }
+    public var unwrappedCategory: String { category ?? "All" }
+    public var unwrappedLocation: String { location ?? "Unknown" }
+    public var unwrappedStoreName: String { storeName ?? "" }
+    public var unwrappedPurchaseType: String { purchaseType ?? "" }
+    
 }
 
 extension Pantry : Identifiable {
