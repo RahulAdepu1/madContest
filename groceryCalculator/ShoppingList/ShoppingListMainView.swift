@@ -419,8 +419,16 @@ struct DoneView: View {
                         .padding(.horizontal, 10)
                     }
                     Button(action: {
+//                        for listItem in listNameCoreData.itemsArray {
+////                            listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName, itemCount: listItem.itemCount)
+//                        }
                         for listItem in listNameCoreData.itemsArray {
-                            listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName, itemCount: listItem.itemCount)
+                            listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName,
+                                                         itemBrand: "Great Value",
+                                                         itemCount: listItem.itemCount,
+                                                         itemCost: 5.55,
+                                                         storeName: "Walmart",
+                                                         purchaseType: "In-Store")
                         }
                         
                     }) {
@@ -464,9 +472,9 @@ struct DoneView: View {
                     }
                     
                     Button(action: {
-                        //                    for listItem in listNameCoreData.itemsArray {
-                        //                        listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName, itemCount: listItem.itemCount)
-                        //                    }
+//                        for listItem in listNameCoreData.itemsArray {
+//                            listNameCoreDataVM.addPantry(itemName: listItem.unwrappeditemName, itemCount: listItem.itemCount)
+//                        }
                     }) {
                         Text("Add to Next List")
                     }

@@ -113,49 +113,35 @@ struct historyDetailView: View {
 }
 
 struct sortByRowView:View {
-    
+    @EnvironmentObject var listNameCoreDataVM: ListNameCoreDataVM
     @State private var defaultFilter = "default"
     
     var body: some View{
-        ScrollView(.horizontal, showsIndicators: false) {
+        VStack{
             HStack{
                 Text("Sort By:")
                 Button {
-                    
+                    listNameCoreDataVM.historySortOption = .default
+                    listNameCoreDataVM.fetchHistory()
                 } label: {
                     Text("default")
                         .modifier(sortByButtonView())
                 }
                 Button {
-                    
+                    listNameCoreDataVM.historySortOption = .store
+                    listNameCoreDataVM.fetchHistory()
                 } label: {
                     Text("Store")
                         .modifier(sortByButtonView())
                 }
                 Button {
-                    
-                } label: {
-                    Text("Purchase Type")
-                        .modifier(sortByButtonView())
-                }
-                Button {
-                    self.defaultFilter = "Cost"
+                    listNameCoreDataVM.historySortOption = .cost
+                    listNameCoreDataVM.fetchHistory()
                 } label: {
                     Text("Cost")
                         .modifier(sortByButtonView())
                 }
-                Button {
-                    self.defaultFilter = "Count"
-                } label: {
-                    Text("items")
-                        .modifier(sortByButtonView())
-                }
-
             }
-            .padding(.leading, 10)
-            .frame(maxWidth: .infinity)
-            .frame(height: 50)
-            
         }
     }
 }

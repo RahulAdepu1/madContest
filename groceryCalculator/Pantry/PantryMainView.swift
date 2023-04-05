@@ -14,23 +14,56 @@ struct PantryMainView: View {
     var body: some View {
         ZStack {
             Color.clear
-            let pantry = listNameCoreDataVM.pantryCoreData
-            if pantry.isEmpty {
-                ZStack {
-                    Color.clear.ignoresSafeArea()
-                    Text("Empty")
+            VStack{
+                HStack{
+                    Button(action: {
+                        listNameCoreDataVM.pantrySortList(by: .default)
+                        listNameCoreDataVM.fetchPantry()
+                    }) {
+                        Text("Default")
+                    }
+                    .padding()
+
+                    Button(action: {
+                        listNameCoreDataVM.pantrySortList(by: .cost)
+                        listNameCoreDataVM.fetchPantry()
+                    }) {
+                        Text("Cost")
+                    }
+                    .padding()
                 }
-            }else {
-                VStack {
-                    ScrollView{
-                        ForEach(listNameCoreDataVM.pantryCoreData) { item in
-                            pantryRowView(pantry: item)
-                        }
-                        
-                    }.padding(.top, 30)
+                TextField("Search", text: $listNameCoreDataVM.pantrySearchText)
+                    .padding()
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .onChange(of: listNameCoreDataVM.pantrySearchText) { _ in
+                        listNameCoreDataVM.fetchPantry()
+                    }
+                
+                // Check if the List is empty or not
+                let pantry = listNameCoreDataVM.pantryCoreData
+                if pantry.isEmpty {
+                    ZStack {
+                        Color.clear.ignoresSafeArea()
+                        Text("Empty")
+                    }
+                }else {
+                    VStack {
+                        ScrollView{
+                            ForEach(listNameCoreDataVM.pantryCoreData) { item in
+                                pantryRowView(pantry: item)
+                            }
+                            
+                        }.padding(.top, 30)
+                    }
+                    .background(Color.clear)
                 }
-                .background(Color.clear)
+                
             }
+            
+            
+            
+            
+            
         }
         .navigationTitle("Pantry")
         .navigationBarTitleDisplayMode(.inline)
@@ -136,10 +169,10 @@ struct pantryItemDetailView: View {
             pantryItemDetailCondition(pantry: pantry, expiryDayReminder: 7)
             Divider()
                 .padding(.horizontal, 20)
-            pantryItemDetailExpStock(pantry: pantry)
+            pantryItemDetailLocCat(pantry: pantry)
             Divider()
                 .padding(.horizontal, 20)
-            pantryItemDetailLocCat(pantry: pantry)
+            pantryItemDetailExpStock(pantry: pantry)
             Divider()
                 .padding(.horizontal, 20)
             HStack {
@@ -208,14 +241,19 @@ struct pantryItemDetailIntro: View {
                     .font(.body)
             }
             Spacer()
-            Image(systemName: "multiply")
-                .fontWeight(.heavy)
-                .onTapGesture {
-                    dismiss()
-                }
+            VStack(alignment: .trailing) {
+                Image(systemName: "multiply")
+                    .fontWeight(.heavy)
+                    .onTapGesture {
+                        dismiss()
+                    }
+                    .padding(.bottom, 5)
+                Text(String(format: "$%.2f", pantry.cost))
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: 50)
-        .padding(20)
+        .padding(.horizontal, 20)
+        .padding(.vertical, 10)
         
     }
 }
@@ -282,23 +320,22 @@ struct pantryItemDetailExpStock: View {
     
     var body: some View{
         HStack{
-            Spacer()
             VStack{
                 Text(dateFormatter.string(from: pantry.unwrappedStockedDate))
                     .font(.body)
                 Text("Stocked on")
                     .font(.caption)
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 10)
-            Spacer()
             VStack{
                 Text(dateFormatter.string(from: pantry.unwrappedExpiryDate))
                     .font(.body)
                 Text("Expires on")
                     .font(.caption)
             }
+            .frame(maxWidth: .infinity)
             .padding(.horizontal, 10)
-            Spacer()
         }
         .frame(maxWidth: .infinity)
         //        .background(Color.gray)
@@ -311,24 +348,29 @@ struct pantryItemDetailLocCat: View {
     @StateObject var pantry: Pantry
     var body: some View{
         HStack{
-            Spacer()
             VStack{
                 Text(pantry.location ?? "")
                     .font(.body)
                 Text("Location")
                     .font(.caption)
             }
-            //            .padding(.horizontal, 35)
-            Spacer()
-            Spacer()
+            .frame(maxWidth: .infinity)
+
+            VStack{
+                Text(pantry.storeName ?? "")
+                    .font(.body)
+                Text("Store")
+                    .font(.caption)
+            }
+            .frame(maxWidth: .infinity)
+            
             VStack{
                 Text(pantry.category ?? "")
                     .font(.body)
                 Text("Category")
                     .font(.caption)
             }
-            //            .padding(.horizontal, 35)
-            Spacer()
+            .frame(maxWidth: .infinity)
         }
         .frame(maxWidth: .infinity)
         //        .background(Color.gray)
