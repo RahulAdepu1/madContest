@@ -27,13 +27,13 @@ class CoreDataManager {
     }
     
     func save() {
-        do {
-            if context.hasChanges {
+        if context.hasChanges {
+            do {
                 try context.save()
                 print("Saved sucessfully")
+            } catch let error {
+                print("Error saving Core Data. \(error.localizedDescription)")
             }
-        } catch let error {
-            print("Error saving Core Data. \(error.localizedDescription)")
         }
     }
     
@@ -47,20 +47,46 @@ class ListNameCoreDataVM: ObservableObject {
     let listNameEntity: String = "ListName"
     let listItemEntity: String = "ListItem"
     let pantryEntity: String = "Pantry"
+    let historyEntity: String = "History"
+    let expensesEntity: String = "Expenses"
+    
     @Published var listNameCoreData: [ListName] = []
     @Published var listItemsCoreData: [ListItem] = []
     @Published var pantryCoreData: [Pantry] = []
+    @Published var historyCoreData: [History] = []
+    @Published var expensesCoreData: [Expenses] = []
     
     @Published var stillLookingItemsArray: [ListItem] = []
     @Published var foundItemsArray: [ListItem] = []
     @Published var notFoundItemsArray: [ListItem] = []
     
+    // Sort Function for History View
+    @Published var historySearchText: String = ""
+    @Published var historySortOption: HistorySortOption = .default
+    enum HistorySortOption {
+        case `default`
+        case store
+        case cost
+    }
+    
+    //Seacrh Box and Sort Function for Pantry
+    @Published var pantrySearchText: String = ""
+    @Published var pantrySortOption: PantrySortOption = .default
+    @Published var pantryAscending: Bool = true
+    enum PantrySortOption {
+        case `default`
+        case cost
+        case date
+    }
+    
     // Initialize ListItems
     init() {
-        whereIsMySQLite()
+//        whereIsMySQLite()
         fetchListName()
         fetchListItems()
         fetchPantry()
+        fetchHistory()
+        fetchExpenses()
         
 //        stillLookingItems()
         foundItems()
@@ -82,9 +108,9 @@ class ListNameCoreDataVM: ObservableObject {
 //------------------------------------------------------------------------------------------------------------------------
     // Fetech all the List Items from core data
     func fetchListName() {
-        let request = NSFetchRequest<ListName>(entityName: listNameEntity)
+//        let request = NSFetchRequest<ListName>(entityName: listNameEntity)
         //Another way to get fetch data
-        //let request: NSFetchRequest<ListName> = ListName.fetchRequest()
+        let request: NSFetchRequest<ListName> = ListName.fetchRequest()
         
         do {
             listNameCoreData = try manager.context.fetch(request)
@@ -103,11 +129,90 @@ class ListNameCoreDataVM: ObservableObject {
     }
     
     func fetchPantry() {
-        let request = NSFetchRequest<Pantry>(entityName: pantryEntity)
+        let requestPantry = NSFetchRequest<Pantry>(entityName: pantryEntity)
+        requestPantry.sortDescriptors = [sortPantryDescriptor()]
+        
+        // For Search Bar
+        if !pantrySearchText.isEmpty {
+            requestPantry.predicate = NSPredicate(format: "itemName CONTAINS[c] %@", pantrySearchText)
+        }
+        
         do {
-            pantryCoreData = try manager.context.fetch(request)
+            pantryCoreData = try manager.context.fetch(requestPantry)
         }catch let error {
             print("Error fetching. \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchHistory() {
+        let requestHistory = NSFetchRequest<History>(entityName: historyEntity)
+        requestHistory.sortDescriptors = sortHistoryDescriptor()
+        
+        // For Search Bar
+        if !historySearchText.isEmpty {
+            requestHistory.predicate = NSPredicate(format: "itemName CONTAINS[c] %@", historySearchText)
+        }
+        
+        // Try to fetch Data
+        do {
+            historyCoreData = try manager.context.fetch(requestHistory)
+        }catch let error {
+            print("Error fetching. \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchExpenses() {
+        let request = NSFetchRequest<Expenses>(entityName: expensesEntity)
+        do {
+            expensesCoreData = try manager.context.fetch(request)
+        }catch let error {
+            print("Error fetching. \(error.localizedDescription)")
+        }
+    }
+
+//------------------------------------------------------------------------------------------------------------------------
+    
+    // Sort Function for Pantry
+    func sortPantryDescriptor() -> NSSortDescriptor {
+        switch pantrySortOption {
+        case .default:
+            return NSSortDescriptor(keyPath: \Pantry.itemName, ascending: pantryAscending)
+        case .cost:
+            return NSSortDescriptor(keyPath: \Pantry.cost, ascending: pantryAscending)
+        case .date:
+            return NSSortDescriptor(keyPath: \Pantry.expiryDate, ascending: pantryAscending)
+        }
+    }
+    
+    func togglePantrySortOrder() {
+        pantryAscending.toggle()
+        fetchPantry()
+    }
+    
+    func pantrySortList(by sortOrder: PantrySortOption) {
+        if sortOrder == self.pantrySortOption {
+            pantryAscending.toggle()
+        } else {
+            self.pantrySortOption = sortOrder
+            pantryAscending = true
+        }
+        fetchPantry()
+    }
+    
+    // Sort Function for History
+    func sortHistoryDescriptor() -> [NSSortDescriptor] {
+        
+        let sortByDate = NSSortDescriptor(keyPath: \History.purchaseDate, ascending: true)
+        let sortByStoreName = NSSortDescriptor(keyPath: \History.storeName, ascending: false)
+        let sortByCost =  NSSortDescriptor(keyPath: \History.cost, ascending: true)
+        
+        switch historySortOption {
+        case .default:
+            return [sortByDate]
+        case .store:
+            return [sortByDate, sortByStoreName]
+        case .cost:
+            return [sortByCost]
         }
     }
     
@@ -134,17 +239,17 @@ class ListNameCoreDataVM: ObservableObject {
     }
     
     // Add Pantry Items
-    func addPantry(itemName: String, itemCount: Double) {
+    func addPantry(itemName: String, itemBrand: String = "", itemCount: Double, itemCost: Double, storeName: String, purchaseType: String) {
         let newPantryItems = Pantry(context: manager.context)
         newPantryItems.id = UUID().uuidString
         newPantryItems.itemName = itemName
-        newPantryItems.itemBrand = ""
+        newPantryItems.itemBrand = itemBrand
         newPantryItems.category = "All"
         newPantryItems.location = "Unknown"
-        newPantryItems.storeName = "None"
-        newPantryItems.purchaseType = "None"
+        newPantryItems.storeName = storeName
+        newPantryItems.purchaseType = purchaseType
         newPantryItems.count = itemCount
-        newPantryItems.cost = 0.0
+        newPantryItems.cost = itemCost
         newPantryItems.stockedDate = Date()
         newPantryItems.expiryDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())
         newPantryItems.consumedDate = Calendar.current.date(byAdding: .month, value: 1, to: Date())
@@ -152,6 +257,31 @@ class ListNameCoreDataVM: ObservableObject {
         newPantryItems.remainingAmount = 100.0
         save()
     }
+    
+    // Add History
+    func addHistory(itemName: String, itemBrand: String = "", itemCount: Double, itemCost: Double, storeName: String, purchaseType: String) {
+        let newHistory = History(context: manager.context)
+        newHistory.id = UUID().uuidString
+        newHistory.itemName = itemName
+        newHistory.itemBrand = itemBrand
+        newHistory.storeName = storeName
+        newHistory.purchaseType = purchaseType
+        newHistory.cost = itemCost
+        newHistory.count = itemCount
+        newHistory.purchaseDate = Date()
+        }
+    
+    // Add Expenses
+    func addExpenses(storeName: String, category: String, cost: Double, consumedAmount: Double, purchasedDate: Date){
+        let newExpenses = Expenses(context: manager.context)
+        newExpenses.id = UUID().uuidString
+        newExpenses.storeName = storeName
+        newExpenses.category = category
+        newExpenses.cost = cost
+        newExpenses.consumedAmount = consumedAmount
+        newExpenses.purchasedDate = purchasedDate
+    }
+    
 //------------------------------------------------------------------------------------------------------------------------
     // Delete List Name
     func deleteListName(indexSet: IndexSet) {
@@ -260,6 +390,12 @@ class ListNameCoreDataVM: ObservableObject {
         newPantryItems.consumedDate = pantryConsumenDate
         save()
     }
+//------------------------------------------------------------------------------------------------------------------------
+    // Updating Data of Expenses
+    func updateConsumedAmount(newExpenseConsumedAmount: Expenses, consumedAmount: Double){
+        newExpenseConsumedAmount.consumedAmount = consumedAmount
+        save()
+    }
     
 //------------------------------------------------------------------------------------------------------------------------
     func save() {
@@ -270,7 +406,7 @@ class ListNameCoreDataVM: ObservableObject {
         foundItems()
         notFoundItems()
         
-        
+        //To reload Pantry
         fetchPantry()
     }
 }
